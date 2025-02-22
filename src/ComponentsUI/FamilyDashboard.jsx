@@ -1,181 +1,160 @@
-import React, { useState } from 'react';
-import { Card, Button, TextInput, Label, Badge } from 'flowbite-react';
-import { Line, Bar } from 'react-chartjs-2';
-import {Chart as ChartJS,CategoryScale,LinearScale,PointElement,LineElement,BarElement,Title,Tooltip,Legend,} from 'chart.js';
-import { HiPlus, HiClock } from 'react-icons/hi';
-
-
-ChartJS.register(CategoryScale,LinearScale,PointElement,LineElement,BarElement,Title,Tooltip,Legend);
+import { useState } from 'react';
+import { Card, Button, TextInput, Label, Checkbox } from 'flowbite-react';
+import { Line } from 'react-chartjs-2';
+import { HiCheck, HiX } from 'react-icons/hi';
 
 const FamilyDashboard = () => {
-  const [showReminderForm, setShowReminderForm] = useState(false);
-  const [newReminder, setNewReminder] = useState({ title: '', time: '' });
-  const [reminders, setReminders] = useState([
-    { title: 'Take Medicine', time: '09:00 AM' },
-    { title: 'Doctor Appointment', time: '02:30 PM' },
+  const [healthParams, setHealthParams] = useState({
+    bloodPressure: '121/80',
+    heartRate: '72',
+    weight: '68',
+    height: '170',
+    bmi: '23.5'
+  });
+
+  // Temporary todos data
+  const [todos, setTodos] = useState([
+    { id: 1, title: 'Take morning medicine' },
+    { id: 2, title: 'Check blood pressure' },
+    { id: 3, title: 'Evening walk' },
+    { id: 4, title: 'Doctor appointment' }
+  ]);
+  
+  const [completedTodos, setCompletedTodos] = useState([]);
+  
+  // Temporary caregiver data
+  const [caregiver, setCaregiver] = useState({
+    name: 'Sarah Johnson',
+    contact: '+1 234-567-8900',
+    email: 'sarah.j@healthcare.com',
+    specialization: 'General Care'
+  });
+
+  // Temporary appointments data
+  const [appointments, setAppointments] = useState([
+    {
+      id: 1,
+      title: 'General Checkup',
+      doctor: 'Dr. Smith',
+      date: '2024-03-25 10:00 AM'
+    },
+    {
+      id: 2,
+      title: 'Cardiology Review',
+      doctor: 'Dr. Johnson',
+      date: '2024-03-28 2:30 PM'
+    },
+    {
+      id: 3,
+      title: 'Blood Test',
+      doctor: 'Lab Center',
+      date: '2024-04-01 9:00 AM'
+    }
   ]);
 
-  
-  const healthData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Blood Pressure',
-        data: [120, 125, 118, 122, 119, 121],
-        borderColor: 'rgb(59, 130, 246)',
-        tension: 0.1,
-      },
-    ],
-  };
-
-  const dietData = {
-    labels: ['Proteins', 'Carbs', 'Fats', 'Fiber'],
-    datasets: [
-      {
-        label: 'Daily Intake (grams)',
-        data: [65, 130, 50, 25],
-        backgroundColor: [
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(59, 130, 246, 0.6)',
-          'rgba(59, 130, 246, 0.4)',
-          'rgba(59, 130, 246, 0.2)',
-        ],
-      },
-    ],
-  };
-
-  const handleAddReminder = (e) => {
-    e.preventDefault();
-    if (newReminder.title && newReminder.time) {
-      setReminders([...reminders, newReminder]);
-      setNewReminder({ title: '', time: '' });
-      setShowReminderForm(false);
-    }
+  const handleTodoComplete = (todoId) => {
+    const completedTodo = todos.find(todo => todo.id === todoId);
+    setCompletedTodos([...completedTodos, completedTodo]);
+    setTodos(todos.filter(todo => todo.id !== todoId));
   };
 
   return (
     <div className="p-4 bg-white">
-     
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-blue-500 mb-2">Health Dashboard</h1>
-        <p className="text-gray-600">Track your family's health and wellness</p>
-      </div>
-
-   
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {/* Health Parameters */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
         <Card>
           <div className="text-center">
             <h3 className="text-lg font-semibold text-gray-700">Blood Pressure</h3>
-            <p className="text-2xl font-bold text-blue-500">121/80</p>
+            <p className="text-2xl font-bold text-blue-500">{healthParams.bloodPressure}</p>
           </div>
         </Card>
         <Card>
           <div className="text-center">
             <h3 className="text-lg font-semibold text-gray-700">Heart Rate</h3>
-            <p className="text-2xl font-bold text-blue-500">72 BPM</p>
+            <p className="text-2xl font-bold text-blue-500">{healthParams.heartRate} BPM</p>
           </div>
         </Card>
         <Card>
           <div className="text-center">
             <h3 className="text-lg font-semibold text-gray-700">Weight</h3>
-            <p className="text-2xl font-bold text-blue-500">68 kg</p>
+            <p className="text-2xl font-bold text-blue-500">{healthParams.weight} kg</p>
           </div>
         </Card>
         <Card>
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-700">Steps</h3>
-            <p className="text-2xl font-bold text-blue-500">8,432</p>
+            <h3 className="text-lg font-semibold text-gray-700">Height</h3>
+            <p className="text-2xl font-bold text-blue-500">{healthParams.height} cm</p>
           </div>
         </Card>
-      </div>
-
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 mx-auto">
         <Card>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4">Blood Pressure Trends</h3>
-          <Line data={healthData} options={{ responsive: true }} />
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-700">BMI</h3>
+            <p className="text-2xl font-bold text-blue-500">{healthParams.bmi}</p>
+          </div>
         </Card>
-        
       </div>
 
-      
-      <Card className="mb-6 ">
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">Diet Plan</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <h4 className="font-semibold text-blue-500">Breakfast</h4>
-            <ul className="list-disc list-inside text-gray-600">
-              <li>Oatmeal with fruits</li>
-              <li>Greek yogurt</li>
-              <li>Green tea</li>
-            </ul>
-          </div>
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <h4 className="font-semibold text-blue-500">Lunch</h4>
-            <ul className="list-disc list-inside text-gray-600">
-              <li>Grilled chicken</li>
-              <li>Mixed vegetables</li>
-              <li>Brown rice</li>
-            </ul>
-          </div>
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <h4 className="font-semibold text-blue-500">Dinner</h4>
-            <ul className="list-disc list-inside text-gray-600">
-              <li>Fish fillet</li>
-              <li>Quinoa</li>
-              <li>Steamed broccoli</li>
-            </ul>
-          </div>
+      {/* Todo Section */}
+      <Card className="mb-6">
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Tasks</h3>
+        <div className="space-y-4">
+          {todos.map(todo => (
+            <div key={todo.id} className="flex items-center gap-2 p-2 hover:bg-gray-50">
+              <Checkbox onChange={() => handleTodoComplete(todo.id)} />
+              <span>{todo.title}</span>
+            </div>
+          ))}
         </div>
+
+        {completedTodos.length > 0 && (
+          <div className="mt-4 pt-4 border-t">
+            <h4 className="text-lg font-medium text-gray-700 mb-2">Completed Tasks</h4>
+            {completedTodos.map(todo => (
+              <div key={todo.id} className="flex items-center gap-2 p-2 text-gray-500">
+                <HiCheck className="text-green-500" />
+                <span className="line-through">{todo.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </Card>
 
+      {/* Caregiver Information */}
+      {caregiver && (
+        <Card className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">Caregiver Information</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-gray-600">Name</p>
+              <p className="font-medium">{caregiver.name}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Contact</p>
+              <p className="font-medium">{caregiver.contact}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Email</p>
+              <p className="font-medium">{caregiver.email}</p>
+            </div>
+            <div>
+              <p className="text-gray-600">Specialization</p>
+              <p className="font-medium">{caregiver.specialization}</p>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* Appointments */}
       <Card>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold text-gray-700">Reminders</h3>
-          <Button color="blue" onClick={() => setShowReminderForm(true)}>
-            <HiPlus className="mr-2 h-5 w-5" />
-            Add Reminder
-          </Button>
-        </div>
-
-        {showReminderForm && (
-          <form onSubmit={handleAddReminder} className="mb-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Upcoming Appointments</h3>
+        <div className="space-y-4">
+          {appointments.map(appointment => (
+            <div key={appointment.id} className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
               <div>
-                <Label htmlFor="title" value="Reminder Title" />
-                <TextInput
-                  id="title"
-                  value={newReminder.title}
-                  onChange={(e) => setNewReminder({ ...newReminder, title: e.target.value })}
-                  required
-                />
+                <p className="font-medium text-gray-900">{appointment.title}</p>
+                <p className="text-sm text-gray-600">{appointment.doctor}</p>
               </div>
-              <div>
-                <Label htmlFor="time" value="Time" />
-                <TextInput
-                  id="time"
-                  type="time"
-                  value={newReminder.time}
-                  onChange={(e) => setNewReminder({ ...newReminder, time: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4">
-              <Button type="submit" color="blue">Add</Button>
-              <Button color="gray" onClick={() => setShowReminderForm(false)}>Cancel</Button>
-            </div>
-          </form>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {reminders.map((reminder, index) => (
-            <div key={index} className="flex items-center p-3 bg-blue-50 rounded-lg">
-              <HiClock className="h-5 w-5 text-blue-500 mr-2" />
-              <div>
-                <p className="font-medium text-gray-700">{reminder.title}</p>
-                <p className="text-sm text-gray-500">{reminder.time}</p>
-              </div>
+              <p className="text-blue-500">{appointment.date}</p>
             </div>
           ))}
         </div>

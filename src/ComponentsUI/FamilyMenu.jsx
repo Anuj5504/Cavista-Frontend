@@ -1,12 +1,12 @@
 import React from 'react'
 import { Sidebar, TextInput } from "flowbite-react";
-import { HiChartPie, HiClipboard, HiCollection, HiInformationCircle, HiLogin, HiPencil, HiSearch, HiShoppingBag, HiUsers } from "react-icons/hi";
+import { HiChartPie, HiInformationCircle, HiLogin, HiSearch, HiUsers } from "react-icons/hi";
 
-const FamilyMember = () => {
+const FamilyMenu = ({ onMenuSelect, activeItem }) => {
   return (
     <Sidebar
-      aria-label="Sidebar with multi-level dropdown example"
-      className="[&>div]:bg-transparent [&>div]:p-0 my-5"
+      aria-label="Family dashboard sidebar"
+      className="[&>div]:bg-white [&>div]:p-0 h-full"
     >
       <div className="flex h-full flex-col justify-between py-4">
         <div>
@@ -15,25 +15,36 @@ const FamilyMember = () => {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-              <Sidebar.Item href="/" icon={HiChartPie}>
-                Dashboard
+              <Sidebar.Item 
+                href="#" 
+                icon={HiChartPie}
+                onClick={() => onMenuSelect('dashboard')}
+                active={activeItem === 'dashboard'}
+              >
+                My Health
               </Sidebar.Item>
-              <Sidebar.Item href="/e-commerce/products" icon={HiShoppingBag}>
+              <Sidebar.Item 
+                href="#" 
+                icon={HiUsers}
+                onClick={() => onMenuSelect('members')}
+                active={activeItem === 'members'}
+              >
                 Family Members
               </Sidebar.Item>
-              <Sidebar.Item href="/users/list" icon={HiUsers}>
-                Add Family Member
+              <Sidebar.Item 
+                href="#" 
+                icon={HiUsers}
+                onClick={() => onMenuSelect('health')}
+                active={activeItem === 'health'}
+              >
+                Family Health
               </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
-                Sign in
-              </Sidebar.Item>
-              <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
-                Sign up
+                Sign out
               </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
-              
-              <Sidebar.Item href="https://github.com/themesberg/flowbite-react/issues" icon={HiInformationCircle}>
+              <Sidebar.Item href="#" icon={HiInformationCircle}>
                 Help
               </Sidebar.Item>
             </Sidebar.ItemGroup>
@@ -44,4 +55,4 @@ const FamilyMember = () => {
   )
 }
 
-export default FamilyMember
+export default FamilyMenu;

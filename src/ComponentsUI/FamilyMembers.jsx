@@ -1,80 +1,75 @@
 import React, { useState } from 'react';
-import { Card, Button, TextInput, Label } from 'flowbite-react';
-import { HiPlus, HiUserAdd } from 'react-icons/hi';
+import { Table, Button } from 'flowbite-react';
+import { HiArrowRight } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 
 const FamilyMembers = () => {
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [newMemberName, setNewMemberName] = useState('');
+  const navigate = useNavigate();
+  // Temporary family members data
   const [familyMembers, setFamilyMembers] = useState([
-    'John Doe',
-    'Jane Doe',
-    'Jimmy Doe',
-    'Jenny Doe'
-  ]);
-
-  const handleAddMember = (e) => {
-    e.preventDefault();
-    if (newMemberName.trim()) {
-      setFamilyMembers([...familyMembers, newMemberName]);
-      setNewMemberName('');
-      setShowAddForm(false);
+    { 
+      id: 1, 
+      name: 'John Doe', 
+      role: 'Admin',
+      relationship: 'Self'
+    },
+    { 
+      id: 2, 
+      name: 'Jane Doe', 
+      role: 'Family Member',
+      relationship: 'Spouse'
+    },
+    { 
+      id: 3, 
+      name: 'Jimmy Doe', 
+      role: 'Family Member',
+      relationship: 'Son'
+    },
+    { 
+      id: 4, 
+      name: 'Jenny Doe', 
+      role: 'Family Member',
+      relationship: 'Daughter'
     }
-  };
+  ]);
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-blue-500">Family Members</h2>
-        <Button 
-          color="blue"
-          onClick={() => setShowAddForm(true)}
-        >
-          <HiPlus className="mr-2 h-5 w-5" />
-          Add Member
-        </Button>
-      </div>
-
-      {/* Add Member Form */}
-      {showAddForm && (
-        <Card className="mb-4">
-          <form onSubmit={handleAddMember} className="flex flex-col gap-4">
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="memberName" value="Member Name" />
-              </div>
-              <TextInput
-                id="memberName"
-                value={newMemberName}
-                onChange={(e) => setNewMemberName(e.target.value)}
-                placeholder="Enter member name"
-                required
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button type="submit" color="blue">
-                <HiUserAdd className="mr-2 h-5 w-5" />
-                Add
-              </Button>
-              <Button color="gray" onClick={() => setShowAddForm(false)}>
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </Card>
-      )}
-
-      {/* Family Members List */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {familyMembers.map((member, index) => (
-          <Card key={index} className="bg-white hover:bg-blue-50 transition-colors">
-            <div className="flex items-center">
-              <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                {member.charAt(0)}
-              </div>
-              <h3 className="ml-3 text-lg font-medium text-gray-900">{member}</h3>
-            </div>
-          </Card>
-        ))}
+      <h2 className="text-2xl font-bold text-blue-500 mb-6">Family Members</h2>
+      
+      <div className="overflow-x-auto">
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell>Name</Table.HeadCell>
+            <Table.HeadCell>Role</Table.HeadCell>
+            <Table.HeadCell>Actions</Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {familyMembers.map((member) => (
+              <Table.Row key={member.id} className="bg-white">
+                <Table.Cell className="font-medium text-gray-900">
+                  {member.name}
+                </Table.Cell>
+                <Table.Cell>
+                  <span className={`px-2 py-1 rounded-full text-sm ${
+                    member.role === 'Admin' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {member.role}
+                  </span>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button 
+                    color="blue"
+                    onClick={() => navigate(`/family`)}
+                    size="sm"
+                  >
+                    <HiArrowRight className="h-4 w-4" />
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
       </div>
     </div>
   );
