@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaArrowRight, FaTimes } from "react-icons/fa"; 
+import { FaArrowRight, FaTimes, FaCheckCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
@@ -33,63 +33,94 @@ const Hero = () => {
     };
 
     return (
-        <div className=' grid grid-cols-1 md:grid-cols-2 gap-10 h-screen w-screen my-10 p-5 overflow-hidden'>
-            <div className='flex flex-col gap-5 mx-auto my-auto text-center md:text-left'>
-                <div className='font-extrabold text-4xl md:text-6xl'>HealthSetu</div>
-                <div className='font-mono text-sm md:text-base'>
-                HealthSetu is India's trusted digital bridge connecting patients, doctors, and healthcare providers in a seamless and personalized way. Designed to enhance patient engagement, HealthSetu empowers users with easy access to medical consultations, health records, and wellness resources—all in one place. 
-                </div>
+        <div className='min-h-screen bg-gradient-to-br from-white to-blue-50'>
+            
+            <div className='container mx-auto px-4 pt-20 pb-12'>
+                <div className='flex flex-col md:flex-row items-center justify-between gap-12'>
+                    
+                    <div className='flex flex-col gap-8 md:w-1/2'>
+                        <div className='inline-flex items-center bg-blue-50 rounded-full px-4 py-2 text-blue-600'>
+                            <span className='text-sm font-semibold'>Seamless, Smarter, and More Connected Care</span>
+                        </div>
 
-                <div onClick={handleGetStartedClick} className='flex w-40 justify-center items-center bg-blue-500 rounded-lg py-2 cursor-pointer'>
-                    <button onClick={handleGetStartedClick} className='bg-blue-500 hover:bg-blue-500'>
-                        Get Started
-                    </button>
-                    <div><FaArrowRight className='' /></div>
+                        <h1 className='font-extrabold text-4xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800'>
+                            Bringing Personalization to Patient Care.
+                        </h1>
+
+                        <p className='text-gray-600 text-lg md:text-xl leading-relaxed'>
+                            HealthSetu bridges the gap between patients and healthcare providers, making quality healthcare accessible to all Indians through our innovative digital platform.
+                        </p>
+
+                        <div className='flex flex-col sm:flex-row gap-4 mt-4'>
+                            <button
+                                onClick={handleGetStartedClick}
+                                className='flex items-center justify-center bg-blue-600 text-white font-semibold rounded-lg py-3 px-8 hover:bg-blue-700 transition duration-300 shadow-lg'
+                            >
+                                Get Started
+                                <FaArrowRight className='ml-2' />
+                            </button>
+                            <button className='flex items-center justify-center border-2 border-blue-600 text-blue-600 font-semibold rounded-lg py-3 px-8 hover:bg-blue-50 transition duration-300'>
+                                Learn More
+                            </button>
+                        </div>
+
+                        {/* Key Features */}
+                        <div className='grid grid-cols-2 gap-4 mt-2'>
+                            {['24/7 Support', 'Secure Platform', 'Easy Access', 'Pan India Network'].map((feature) => (
+                                <div key={feature} className='flex items-center gap-2 text-gray-700'>
+                                    <FaCheckCircle className='text-blue-600' />
+                                    <span>{feature}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Right Image */}
+                    <div className='md:w-1/2'>
+                        <div className='relative'>
+                            <div className='absolute -inset-4 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg blur-lg opacity-30'></div>
+                            <img
+                                src="https://cdn.prod.website-files.com/65f6ba266e0d7c8372e4b4cf/65fbb9b8ced567ebab4eab0a_banner.webp"
+                                alt="HealthSetu Platform"
+                                className='relative rounded-lg shadow-2xl w-full object-cover'
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div className='flex flex-col gap-5 mx-auto my-auto'>
-                <img
-                    src="https://cdn.prod.website-files.com/65f6ba266e0d7c8372e4b4cf/65fbb9b8ced567ebab4eab0a_banner.webp"
-                    alt="Hero Image" className='w-full h-auto'
-                />
-            </div>
-
+            {/* Login Modal */}
             {showOptions && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-8 rounded-lg text-center w-96 h-72 flex flex-col justify-between relative">
-                        <h3 className="text-2xl font-semibold mb-5">Login</h3>
+                    <div className="bg-white p-8 rounded-xl text-center w-96 flex flex-col gap-6 relative shadow-2xl">
+                        <h3 className="text-2xl font-bold text-gray-800">Choose Your Role</h3>
+                        <p className="text-gray-600">Select how you want to access HealthSetu</p>
+
                         <div className="flex flex-col gap-4">
-                            <button
-                                onClick={() => handleRouteClick('Patient Caretaker')}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
-                            >
-                                Patient Caretaker
-                            </button>
-                            <button
-                                onClick={() => handleRouteClick('Health Provider')}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
-                            >
-                                Health Provider
-                            </button>
-                            <button
-                                onClick={() => handleRouteClick('Care Coordinator')}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
-                            >
-                                Care Coordinator
-                            </button>
+                            {[
+                                { title: 'Patient Caretaker', route: 'Patient Caretaker' },
+                                { title: 'Health Provider', route: 'Health Provider' },
+                                { title: 'Care Coordinator', route: 'Care Coordinator' }
+                            ].map((option) => (
+                                <button
+                                    key={option.title}
+                                    onClick={() => handleRouteClick(option.route)}
+                                    className="px-6 py-4 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition duration-300 flex items-center justify-center gap-2 font-semibold"
+                                >
+                                    {option.title}
+                                </button>
+                            ))}
                         </div>
 
                         <button
                             onClick={() => setShowOptions(false)}
-                            className="absolute top-2 left-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-200"
+                            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition duration-200"
                         >
                             <FaTimes size={20} />
                         </button>
                     </div>
                 </div>
             )}
-          
         </div>
     );
 };

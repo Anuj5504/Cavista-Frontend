@@ -13,7 +13,7 @@ const CareRegister = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/home');
+            navigate('/caregiver');
         }
     }, [navigate]);
 
@@ -37,11 +37,11 @@ const CareRegister = () => {
                 console.log('Registration successful:', data);
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('role', 'caregiver');
-                navigate('/home');
+                navigate('/caregiver');
             } else {
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
-            navigate('/family')
+            navigate('/caregiver')
         } catch (error) {
             console.error('Error:', error);
         }
@@ -50,7 +50,7 @@ const CareRegister = () => {
     return (
         <div className="flex justify-center items-center mt-20 min-h-[80vh]">
             <div className='flex flex-col w-80 gap-5 p-6 border-none rounded-3xl shadow-lg'>
-                <h2 className="text-2xl font-bold text-center text-blue-500">Caregiver Register</h2>
+                <h2 className="text-2xl font-bold text-center text-blue-500">Caretaker Register</h2>
 
                 <div className="flex items-center border-b border-blue-500 py-2">
                     <FaUser className="text-blue-500 mr-3" />

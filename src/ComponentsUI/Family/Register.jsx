@@ -29,9 +29,9 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
             console.error('All fields are required to create a family.');
             return;
         }
-
+         
         try {
-            const response = await fetch('http://localhost:3000/api/family/create', {
+            const response = await fetch('http://localhost:3000/api/auth/family/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
