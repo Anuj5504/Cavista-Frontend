@@ -17,7 +17,7 @@ import CareRegister from './ComponentsUI/CareGiver/CareRegister';
 import Caregiver from './Pages/Caregiver';
 import Footer from './ComponentsUI/Footer';
 import FamDashboard from './Pages/Family';
-// import HealthCare from './'
+
 
 
 const App = () => {

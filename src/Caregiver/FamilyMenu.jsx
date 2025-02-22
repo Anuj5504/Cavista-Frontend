@@ -39,7 +39,7 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
                             >
                                 Update Profile
                             </Sidebar.Item>
-                            <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
+                            <Sidebar.Item href="#" icon={HiLogin}>
                                 Sign out
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>

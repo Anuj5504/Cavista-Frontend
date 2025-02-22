@@ -36,8 +36,8 @@ const CareLogin = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
-                localStorage.setItem('token', data.token); // Store token
-                localStorage.setItem('role', 'caregiver'); // Store role
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('role', 'caregiver');
                 navigate('/caregiver')
             } else {
                 console.error('Login failed:', data.msg || 'An error occurred');
@@ -48,7 +48,7 @@ const CareLogin = () => {
     };
 
     return (
-        <div className="flex justify-center items-center mt-20 min-h-screen">
+        <div className="flex justify-center items-center mt-20 min-h-[70vh]">
             <div className='flex flex-col w-80 gap-5 p-6 border-none rounded-3xl shadow-lg'>
                 <h2 className="text-2xl font-bold text-center text-blue-500">Caregiver Login</h2>
 
@@ -76,7 +76,7 @@ const CareLogin = () => {
                     />
                 </div>
 
-                <Link to={"/care-register"}>
+                <Link to={"/register-caregiver"}>
                     <div className='cursor-pointer text-gray-600 hover:text-blue-500'>Create an account?</div>
                 </Link>
                 <button className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleLogin}>

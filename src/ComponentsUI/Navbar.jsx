@@ -29,7 +29,7 @@ const Navbar = () => {
   }, [localStorage.getItem('role')]);
 
   return (
-    <div className='m-4 flex justify-between h-18 font-mono'>
+    <div className='py-4 px-4 flex justify-between h-18 font-mono bg-blue-300'>
       <Link to="/home" >Logo</Link>
 
       <div>

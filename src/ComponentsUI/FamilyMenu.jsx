@@ -56,7 +56,7 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
               >
                 Connect your google fit
               </Sidebar.Item>
-              <Sidebar.Item icon={HiLogin}
+              <Sidebar.Item href="#" icon={HiLogin}
                 onClick={handleLogout}
               >
                 Sign out
@@ -64,7 +64,6 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               <Sidebar.Item href="#" icon={HiInformationCircle}
-                onClick={handleLogout}
               >
                 Help
               </Sidebar.Item>

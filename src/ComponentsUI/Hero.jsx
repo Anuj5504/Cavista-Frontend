@@ -58,7 +58,7 @@ const Hero = () => {
             {showOptions && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-8 rounded-lg text-center w-96 h-72 flex flex-col justify-between relative">
-                        <h3 className="text-2xl font-semibold mb-5">Choose your route</h3>
+                        <h3 className="text-2xl font-semibold mb-5">Login</h3>
                         <div className="flex flex-col gap-4">
                             <button
                                 onClick={() => handleRouteClick('Patient Caretaker')}

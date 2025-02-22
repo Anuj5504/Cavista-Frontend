@@ -2,9 +2,7 @@ import React from 'react'
 
 function ConnectFit() {
     const handleConnectGoogleFit = () => {
-        // Logic to connect with Google Fit
-        console.log('Connecting to Google Fit...');
-        // You would typically initiate the OAuth flow here
+        console.log('google');
     };
 
     return (

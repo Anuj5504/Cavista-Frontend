@@ -127,7 +127,7 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
         }
     }
     return (
-        <div className="flex justify-center items-center mt-20 min-h-screen">
+        <div className="flex justify-center items-center mt-20 min-h-[80vh]">
             <div className='flex flex-col w-80 gap-5 p-6 border-none rounded-3xl shadow-lg'>
                 <h2 className="text-2xl font-bold text-center text-blue-500">Register</h2>
 
