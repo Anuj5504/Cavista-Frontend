@@ -7,7 +7,7 @@ const CreateFamily = () => {
     }
     return (
         <div>
-            <div className="flex justify-center items-center min-h-screen ">
+            <div className="font-mono flex justify-center items-center min-h-screen ">
                 <div className='flex flex-col w-80 gap-5 bg-white p-6 border-none rounded-3xl shadow-lg'>
                     <h2 className="text-2xl font-bold text-center text-blue-500">Create Family</h2>
 
