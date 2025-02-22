@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button } from "./components/ui/button"
+import Navbar from './ComponentsUI/Navbar'
+import Hero from './ComponentsUI/Hero'
 function App() {
 
 
   return (
     <>
       <div>
-        <Button>Click me</Button>
+        <Hero/>
       </div>
     </>
   )
