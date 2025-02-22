@@ -39,26 +39,64 @@ const AssignTask = () => {
   const fetchGoals = async () => {
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      console.log('Fetching goals for patient:', id); // Debug log
+
       const response = await fetch(`http://localhost:3000/api/goals/patient/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
       });
+
       const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Server error response:', data); // Debug log
+        throw new Error(data.msg || 'Failed to fetch goals');
+      }
+
+      // Handle empty response
+      if (!data || !Array.isArray(data)) {
+        console.log('No goals data received or invalid format'); // Debug log
+        setDailyTasks({});
+        setGoals([]);
+        return;
+      }
+
+      console.log('Received goals:', data.length); // Debug log
 
       // Organize goals by date
       const tasksByDate = {};
       data.forEach(goal => {
-        if (goal.date) {
+        if (goal.date && goal.todos) {
           const dateKey = new Date(goal.date).toISOString().split('T')[0];
-          tasksByDate[dateKey] = goal.todos || [];
+          if (!tasksByDate[dateKey]) {
+            tasksByDate[dateKey] = [];
+          }
+          // Add each todo from the goal to that date's tasks
+          if (Array.isArray(goal.todos)) {
+            tasksByDate[dateKey].push(...goal.todos);
+          }
         }
       });
+
+      console.log('Organized tasks by date:', Object.keys(tasksByDate).length); // Debug log
 
       setDailyTasks(tasksByDate);
       setGoals(data);
     } catch (error) {
       console.error('Error fetching goals:', error);
+      // Show more detailed error message to user
+      const errorMessage = error.message || 'Failed to fetch goals. Please try again.';
+      alert(errorMessage);
+
+      // Clear state on error
+      setDailyTasks({});
+      setGoals([]);
     }
   };
 
@@ -73,9 +111,14 @@ const AssignTask = () => {
       const dateKey = new Date(selectedDate).toISOString().split('T')[0];
       const currentTasks = dailyTasks[dateKey] || [];
 
+      // Remove id from the new todo
       setDailyTasks({
         ...dailyTasks,
-        [dateKey]: [...currentTasks, { ...newTodo, id: Date.now() }]
+        [dateKey]: [...currentTasks, {
+          title: newTodo.title,
+          description: newTodo.description,
+          status: 'pending'
+        }]
       });
 
       setNewTodo({
@@ -86,9 +129,9 @@ const AssignTask = () => {
     }
   };
 
-  const handleRemoveTodo = (date, todoId) => {
+  const handleRemoveTodo = (date, todoIndex) => {
     const dateKey = new Date(date).toISOString().split('T')[0];
-    const updatedTasks = dailyTasks[dateKey].filter(todo => todo.id !== todoId);
+    const updatedTasks = dailyTasks[dateKey].filter((_, index) => index !== todoIndex);
 
     setDailyTasks({
       ...dailyTasks,
@@ -99,55 +142,91 @@ const AssignTask = () => {
   const handleSubmitGoal = async (date) => {
     const dateKey = new Date(date).toISOString().split('T')[0];
     const todosForDate = dailyTasks[dateKey];
-    console.log(todosForDate)
+
     if (!todosForDate || todosForDate.length === 0) {
-        alert('No tasks added for this date');
-        return;
+      alert('No tasks added for this date');
+      return;
     }
 
     try {
-        const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-        // Save each todo in TodosModel
-        const todoResponses = await Promise.all(todosForDate.map(todo =>
-            fetch('http://localhost:3000/api/goals', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(todo),
-            }).then(res => res.json())
-        ));
+      // Single API call to create goal and todos
+      const response = await fetch('http://localhost:3000/api/goals', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          patientId: id,
+          date: dateKey,
+          todos: todosForDate
+        }),
+      });
 
-        const todoIds = todoResponses.map(todo => todo._id);
-
-        // Now save goal with the saved todo IDs
-        const response = await fetch('http://localhost:3000/api/goals', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                patient: id,
-                date: dateKey,
-                todos: todoIds
-            }),
-        });
-
-        if (response.ok) {
-            // Clear only the submitted date's tasks
-            const { [dateKey]: removedTasks, ...remainingTasks } = dailyTasks;
-            setDailyTasks(remainingTasks);
-            setSelectedDate('');
-            fetchGoals();
-        }
+      if (response.ok) {
+        // Clear only the submitted date's tasks
+        const { [dateKey]: removedTasks, ...remainingTasks } = dailyTasks;
+        setDailyTasks(remainingTasks);
+        setSelectedDate('');
+        fetchGoals();
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to save tasks: ${errorData.msg}`);
+      }
     } catch (error) {
-        console.error('Error creating goal:', error);
+      console.error('Error creating goal:', error);
+      alert('Failed to save tasks. Please try again.');
     }
-};
+  };
 
+  const TaskCard = ({ date, todos }) => {
+    // Check if there are any unsaved todos (todos without _id)
+    const hasUnsavedTodos = todos.some(todo => !todo._id);
+
+    return (
+      <Card key={date} className="mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold">
+            Tasks for {new Date(date).toLocaleDateString()}
+          </h3>
+          {hasUnsavedTodos && (
+            <Button
+              color="success"
+              size="sm"
+              onClick={() => handleSubmitGoal(date)}
+            >
+              <HiSave className="mr-2 h-4 w-4" />
+              Save Day's Tasks
+            </Button>
+          )}
+        </div>
+        <div className="space-y-3">
+          {todos.map((todo, index) => (
+            <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+              <div>
+                <h4 className="font-medium">{todo.title}</h4>
+                <p className="text-sm text-gray-600">{todo.description}</p>
+                <span className={`text-xs ${todo.status === 'completed' ? 'text-green-600' : 'text-yellow-600'}`}>
+                  Status: {todo.status}
+                </span>
+              </div>
+              {!todo._id && (
+                <Button
+                  color="failure"
+                  size="xs"
+                  onClick={() => handleRemoveTodo(date, index)}
+                >
+                  Remove
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      </Card>
+    );
+  };
 
   return (
     <div className="flex h-screen">
@@ -208,38 +287,7 @@ const AssignTask = () => {
 
         {/* Display tasks grouped by date */}
         {Object.entries(dailyTasks).map(([date, todos]) => (
-          <Card key={date} className="mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">
-                Tasks for {new Date(date).toLocaleDateString()}
-              </h3>
-              <Button
-                color="success"
-                size="sm"
-                onClick={() => handleSubmitGoal(date)}
-              >
-                <HiSave className="mr-2 h-4 w-4" />
-                Save Day's Tasks
-              </Button>
-            </div>
-            <div className="space-y-3">
-              {todos.map((todo) => (
-                <div key={todo.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium">{todo.title}</h4>
-                    <p className="text-sm text-gray-600">{todo.description}</p>
-                  </div>
-                  <Button
-                    color="failure"
-                    size="xs"
-                    onClick={() => handleRemoveTodo(date, todo.id)}
-                  >
-                    Remove
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </Card>
+          <TaskCard key={date} date={date} todos={todos} />
         ))}
       </div>
     </div>

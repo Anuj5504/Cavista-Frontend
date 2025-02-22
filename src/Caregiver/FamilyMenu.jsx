@@ -28,18 +28,18 @@ const FamilyMenu = ({ activeItem }) => {
                             <Sidebar.Item
                                 href="#"
                                 icon={HiUsers}
-                                onClick={() => handleNavigation('/patients')}
+                                onClick={() => handleNavigation('/caregiver')}
                                 active={activeItem === 'patients'}
                             >
                                 Patient List
                             </Sidebar.Item>
-                            <Sidebar.Item
+                            {/* <Sidebar.Item
                                 href="#"
                                 icon={HiUsers}
                                 active={activeItem === 'assign'}
                             >
                                 Assign Tasks
-                            </Sidebar.Item>
+                            </Sidebar.Item> */}
                             <Sidebar.Item href="#" icon={HiLogin} onClick={handleSignOut}>
                                 Sign out
                             </Sidebar.Item>
