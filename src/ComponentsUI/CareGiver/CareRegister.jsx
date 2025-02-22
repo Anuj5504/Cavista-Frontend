@@ -88,7 +88,7 @@ const CareRegister = () => {
                     />
                 </div>
 
-                <Link to={"/care-login"}>
+                <Link to={"/login-caregiver"}>
                     <div className='cursor-pointer text-gray-600 hover:text-blue-500'>Already have an account?</div>
                 </Link>
                 <button className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleRegister}>

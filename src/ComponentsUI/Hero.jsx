@@ -33,7 +33,7 @@ const Hero = () => {
     };
 
     return (
-        <div className='align-middle grid grid-cols-1 md:grid-cols-2 gap-10 h-screen w-screen my-10 p-5'>
+        <div className=' grid grid-cols-1 md:grid-cols-2 gap-10 h-screen w-screen my-10 p-5 overflow-hidden'>
             <div className='flex flex-col gap-5 mx-auto my-auto text-center md:text-left'>
                 <div className='font-extrabold text-4xl md:text-6xl'>HealthSetu</div>
                 <div className='font-mono text-sm md:text-base'>
@@ -89,7 +89,7 @@ const Hero = () => {
                     </div>
                 </div>
             )}
-
+          
         </div>
     );
 };
