@@ -35,11 +35,12 @@ const FamilyMembers = () => {
         }
 
         const data = await response.json();
-
+        console.log(data)
         // Filter patients based on caregiver ID
         const filteredPatients = data.filter(
-          (patient) => patient.caregiver === caregiverId
+          (patient) => patient.caregiver._id === caregiverId
         );
+        console.log(filteredPatients)
 
         setPatients(filteredPatients);
       } catch (err) {
@@ -95,8 +96,8 @@ const FamilyMembers = () => {
                   <Table.Cell>
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${patient.status === 'active'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-gray-100 text-gray-800'
                         }`}
                     >
                       {patient.status || 'Active'}

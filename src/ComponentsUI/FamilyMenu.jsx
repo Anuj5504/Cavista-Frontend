@@ -54,7 +54,7 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
                 onClick={() => onMenuSelect('connect')}
                 active={activeItem === 'connect'}
               >
-                Connect your google fit
+                Connect To Fitbit
               </Sidebar.Item>
               <Sidebar.Item href="#" icon={HiLogin}
                 onClick={handleLogout}
