@@ -53,7 +53,7 @@ export default function PatientAssignmentDashboard() {
               key={patient.id}
               className={`w-full text-left p-3 rounded-lg mb-2 border ${
                 selectedPatient?.id === patient.id
-                  ? 'border-blue-500 bg-blue-50'
+                  ? 'border-blue-500'
                   : 'border-gray-200'
               }`}
             >

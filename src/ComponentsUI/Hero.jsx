@@ -9,12 +9,18 @@ return (
              <div className='font-extrabold text-4xl md:text-6xl'>Healthy</div>
              <div className='font-mono text-sm md:text-base'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa laborum ipsa, odit qui 
                     fugit maxime! Maxime nisi non explicabo ratione eligendi aliquid voluptas nesciunt ex assumenda! Quod nihil rerum optio?</div>
-         <Button className='h-12 w-32 bg-blue-500 mx-auto md:mx-0'>Get Started  <div ><FaArrowRight /></div></Button>
+
+                    <div className='flex w-40 justify-center items-center  bg-blue-500 rounded-lg'>
+                    <Button className=' bg-blue-500 hover:bg-blue-500'>Get Started </Button>
+                    <div ><FaArrowRight className='' /></div>
+
+                    </div>
+              
+  
          </div>
 
         <div className='flex flex-col gap-5 mx-auto my-auto'>
-            Image
-                <img src="" alt="Hero Image" className='w-full h-auto' />
+                <img src="https://cdn.prod.website-files.com/65f6ba266e0d7c8372e4b4cf/65fbb9b8ced567ebab4eab0a_banner.webp" alt="Hero Image" className='w-full h-auto' />
         </div>
 
     </div>

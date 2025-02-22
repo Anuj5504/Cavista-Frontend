@@ -14,12 +14,12 @@ function App() {
   return (
     <>
       <div>
-       <FamilyDashboard/>
+      
         <Navbar></Navbar>
         <Routes>
 
           <Route path="/" element = {<Hero></Hero> } ></Route>
-          <Route path="/HealthCare" element = {<HealthCare></HealthCare> } ></Route>
+          <Route path='/FamilyDashboard' element={<FamilyDashboard></FamilyDashboard>}></Route>
        
 
         </Routes>
