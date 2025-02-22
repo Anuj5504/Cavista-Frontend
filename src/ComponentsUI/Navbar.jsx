@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <div className='py-4 px-4 flex justify-between h-18 font-mono bg-blue-300'>
-      <Link to="/home" >Logo</Link>
+      <Link to="/home" className='font-bold text-xl'>HealthSetu</Link>
 
       <div>
         <ul className='list-none flex flex-row justify-between gap-4'>
