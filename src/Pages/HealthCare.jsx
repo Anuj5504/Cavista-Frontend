@@ -15,6 +15,7 @@ export default function HealthCare() {
     email: '',
     avatar: ''
   });
+  const [assignedPatients, setAssignedPatients] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -50,7 +51,14 @@ export default function HealthCare() {
           'Content-Type': 'application/json'
         }
       });
-      setPatients(response.data);
+
+      // Separate patients into assigned and unassigned
+      const allPatients = response.data;
+      const unassigned = allPatients.filter(p => !p.caregiver);
+      const assigned = allPatients.filter(p => p.caregiver);
+
+      setPatients(unassigned);
+      setAssignedPatients(assigned);
     } catch (error) {
       console.error('Error fetching patients:', error.response?.data || error.message);
     }
@@ -74,9 +82,12 @@ export default function HealthCare() {
     if (selectedPatient) {
       try {
         const token = localStorage.getItem('token');
-        // Update patient with assigned caregiver
-        const response = await axios.put(`http://localhost:3000/api/patients/${selectedPatient._id}`,
-          { caregiver: provider._id },
+        const response = await axios.put(
+          'http://localhost:3000/api/patients/update-caregiver',
+          {
+            patientId: selectedPatient._id,
+            caregiverId: provider._id
+          },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -86,23 +97,35 @@ export default function HealthCare() {
         );
 
         if (response.status === 200) {
-          setAssignments((prev) => [
-            ...prev,
-            {
-              patient: selectedPatient.name,
-              provider: provider.name,
-              date: new Date().toLocaleDateString(),
-              status: 'Active',
-            },
-          ]);
+          // Add to assignments list with more details
+          const newAssignment = {
+            patient: selectedPatient.name,
+            provider: provider.name,
+            date: new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            }),
+            status: 'Active',
+            patientId: selectedPatient._id,
+            providerId: provider._id
+          };
 
+          setAssignments(prev => [newAssignment, ...prev].slice(0, 5)); // Keep only last 5 assignments
+
+          // Remove assigned patient from the list
           setPatients((prev) => prev.filter((p) => p._id !== selectedPatient._id));
+
+          // Clear selection and hide provider list
           setSelectedPatient(null);
           setShowProviderList(false);
+
+          // Show success message
+          alert('Caregiver assigned successfully!');
         }
       } catch (error) {
         console.error('Error assigning caregiver:', error);
-        alert('Failed to assign caregiver');
+        alert('Failed to assign caregiver: ' + (error.response?.data?.msg || error.message));
       }
     }
   };
@@ -140,31 +163,32 @@ export default function HealthCare() {
       </div>
 
       <h1 className="text-2xl font-bold mb-6">Patient Assignment Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <div className="bg-white shadow-lg rounded-2xl p-4 max-h-96 overflow-y-auto">
-          <h2 className="font-semibold text-lg mb-4">Patients</h2>
-          {Array.isArray(patients) && patients.map((patient) => (
-            <div
-              key={patient._id}
-              className={`w-full text-left p-3 rounded-lg mb-2 border ${selectedPatient?._id === patient._id ? 'border-blue-500' : 'border-gray-200'
-                }`}
-            >
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium">{patient.name}</p>
-                  <p className="text-sm text-gray-500">Email: {patient.email}</p>
+          <h2 className="font-semibold text-lg mb-4">Unassigned Patients</h2>
+          {Array.isArray(patients) && patients.length > 0 ? (
+            patients.map((patient) => (
+              <div
+                key={patient._id}
+                className={`w-full text-left p-3 rounded-lg mb-2 border ${selectedPatient?._id === patient._id ? 'border-blue-500' : 'border-gray-200'
+                  }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium">{patient.name}</p>
+                    <p className="text-sm text-gray-500">Email: {patient.email}</p>
+                  </div>
+                  <button
+                    onClick={() => handlePatientAssign(patient)}
+                    className="px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  >
+                    Assign
+                  </button>
                 </div>
-                <button
-                  onClick={() => handlePatientAssign(patient)}
-                  className="px-4 py-1 bg-blue-500 text-white rounded-lg"
-                >
-                  Assign
-                </button>
               </div>
-            </div>
-          ))}
-          {Array.isArray(patients) && patients.length === 0 && (
-            <p className="text-gray-500 text-center">No patients available</p>
+            ))
+          ) : (
+            <p className="text-gray-500 text-center">No unassigned patients</p>
           )}
         </div>
 
@@ -201,28 +225,96 @@ export default function HealthCare() {
         )}
       </div>
 
-      <div className="mt-8 bg-white shadow-lg rounded-2xl p-4">
-        <h2 className="font-semibold text-lg mb-4">Recent Assignments</h2>
-        <table className="w-full text-left">
-          <thead>
-            <tr>
-              <th className="py-2">Patient</th>
-              <th className="py-2">Provider</th>
-              <th className="py-2">Date Assigned</th>
-              <th className="py-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {assignments.map((assignment, index) => (
-              <tr key={index} className="border-t">
-                <td className="py-2">{assignment.patient}</td>
-                <td className="py-2">{assignment.provider}</td>
-                <td className="py-2">{assignment.date}</td>
-                <td className="py-2 text-green-600">{assignment.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-8">
+        <h2 className="font-semibold text-xl mb-6">Patient Assignments</h2>
+        <div className="grid gap-4">
+          {assignedPatients.map((patient) => (
+            <div
+              key={patient._id}
+              className="bg-white shadow-lg rounded-2xl p-4 transition-all hover:shadow-xl"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 text-lg font-semibold">
+                      {patient.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">{patient.name}</h3>
+                    <p className="text-sm text-gray-500">{patient.email}</p>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <span className="text-sm text-gray-500">Assigned to:</span>
+                      <span className="text-sm font-medium text-gray-700">
+                        {patient.caregiver?.name || 'Unknown'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-500">
+                    {patient.caregiver?.email || 'N/A'}
+                  </div>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
+                    Active
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {assignments.map((assignment, index) => (
+            <div
+              key={`recent-${index}`}
+              className="bg-white shadow-lg rounded-2xl p-4 transition-all hover:shadow-xl"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <span className="text-blue-600 text-lg font-semibold">
+                      {assignment.patient.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">{assignment.patient}</h3>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <span className="text-sm text-gray-500">Assigned to:</span>
+                      <span className="text-sm font-medium text-gray-700">{assignment.provider}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-500">{assignment.date}</div>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
+                    {assignment.status}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {assignedPatients.length === 0 && assignments.length === 0 && (
+            <div className="bg-white shadow-lg rounded-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">No Patient Assignments</h3>
+              <p className="text-gray-500">Assigned patients will appear here</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
