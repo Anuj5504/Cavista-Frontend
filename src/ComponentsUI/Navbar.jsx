@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'flowbite-react'
 const Navbar = () => {
   return (
-    <div className='m-4 flex justify-between h-18 font-mono'>
+    <div className='m-4 flex justify-between h  -18 font-mono'>
       <div>Logo</div>
 
       <div >

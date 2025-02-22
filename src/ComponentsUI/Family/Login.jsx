@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { FaEnvelope, FaLock } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
-const Login = ({ userData, setuserData,step,setstep }) => {
+const Login = ({ userData, setuserData,step,setstep,setlogin }) => {
 
     const handleLogin=()=>{
         //login api
@@ -9,7 +10,7 @@ const Login = ({ userData, setuserData,step,setstep }) => {
         console.log(userData)
     }
     return (
-        <div className="flex justify-center items-center min-h-screen ">
+        <div className="flex justify-center items-center mt-20 ">
             <div className='flex flex-col w-80 gap-5 p-6 border-none rounded-3xl shadow-lg'>
                 <h2 className="text-2xl font-bold text-center text-blue-500">Login</h2>
                 
@@ -51,7 +52,9 @@ const Login = ({ userData, setuserData,step,setstep }) => {
                     <option value="admin">Admin</option>
                     <option value="member">Member</option>
                 </select>
-                
+                <Link onChange={()=>setlogin(1)} to={"/register-patient"}>
+                <div  className='cursor-pointer text-gray-600 hover:text-blue-500' >Create a account?</div>
+                </Link>
                 <button className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleLogin}>
                     Login
                 </button>
