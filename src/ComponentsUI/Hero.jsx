@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaArrowRight, FaTimes } from "react-icons/fa"; // Import FaTimes for the close icon
+import { FaArrowRight, FaTimes } from "react-icons/fa"; 
 import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
@@ -55,7 +55,6 @@ const Hero = () => {
                 />
             </div>
 
-            {/* Options Modal */}
             {showOptions && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-8 rounded-lg text-center w-96 h-72 flex flex-col justify-between relative">
@@ -81,7 +80,6 @@ const Hero = () => {
                             </button>
                         </div>
 
-                        {/* Cancel Button with Icon */}
                         <button
                             onClick={() => setShowOptions(false)}
                             className="absolute top-2 left-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-200"

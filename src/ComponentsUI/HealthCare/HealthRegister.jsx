@@ -13,7 +13,7 @@ const HealthRegister = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/home');
+            navigate('/healthproviderdashboard');
         }
     }, [navigate]);
 
@@ -35,9 +35,9 @@ const HealthRegister = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Registration successful:', data);
-                localStorage.setItem('token', data.token); // Store token
-                localStorage.setItem('role', 'healthcare'); // Store role
-                navigate('/home');
+                localStorage.setItem('token', data.token); 
+                localStorage.setItem('role', 'healthcare'); 
+                navigate('/healthproviderdashboard');
             } else {
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
@@ -87,7 +87,7 @@ const HealthRegister = () => {
                     />
                 </div>
 
-                <Link to={"/health-login"}>
+                <Link to={"/login-healthprovider"}>
                     <div className='cursor-pointer text-gray-600 hover:text-blue-500'>Already have an account?</div>
                 </Link>
                 <button className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleRegister}>

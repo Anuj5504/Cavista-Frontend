@@ -1,9 +1,12 @@
 import React from 'react'
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import FamilyMenu from './ComponentsUI/FamilyMenu'
+// import FamilyDashboard from './ComponentsUI/FamilyDashboard' 
+import FamilyMembers from './ComponentsUI/FamilyMembers'
+import MyFamilyHealth from './ComponentsUI/MyFamilyHealth'
 import Navbar from './ComponentsUI/Navbar'
 import Hero from './ComponentsUI/Hero'
 import HealthCare from './Pages/HealthCare';
-import { Routes, Route } from 'react-router-dom';
 import Login from './ComponentsUI/Family/Login';
 import Family from './ComponentsUI/Family/Family';
 import Register from './ComponentsUI/Family/Register';
@@ -11,10 +14,13 @@ import HealthLogin from './ComponentsUI/HealthCare/HealthLogin';
 import HealthRegister from './ComponentsUI/HealthCare/HealthRegister';
 import CareLogin from './ComponentsUI/CareGiver/CareLogin';
 import CareRegister from './ComponentsUI/CareGiver/CareRegister';
+import Caregiver from './Pages/Caregiver';
 import Footer from './ComponentsUI/Footer';
-function App() {
+import FamDashboard from './Pages/Family';
+// import HealthCare from './'
 
 
+const App = () => {
   return (
     <>
       <div>
@@ -29,11 +35,14 @@ function App() {
           <Route path="/register-healthprovider" element={<HealthRegister />}></Route>
           <Route path="/login-caregiver" element={<CareLogin />}></Route>
           <Route path="/register-caregiver" element={<CareRegister />}></Route>
+          <Route path="/family" element={<FamDashboard />}></Route>
+          <Route path="/healthproviderdashboard" element={<HealthCare />}></Route>
+          <Route path="/caregiver" element={<Caregiver />}></Route>
         </Routes>
         {/* <Footer/> */}
       </div>
     </>
+
   )
 }
-
-export default App
+export default App;

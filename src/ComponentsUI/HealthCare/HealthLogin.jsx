@@ -34,12 +34,13 @@ const HealthLogin = () => {
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
-                localStorage.setItem('token', data.token); // Store token
-                localStorage.setItem('role', 'healthcare'); // Store role
-                navigate('/home');
+                localStorage.setItem('token', data.token); 
+                localStorage.setItem('role', 'healthcare'); 
+                navigate('/healthproviderdashboard');
             } else {
                 console.error('Login failed:', data.msg || 'An error occurred');
             }
+            
         } catch (error) {
             console.error('Error:', error);
         }
@@ -74,7 +75,7 @@ const HealthLogin = () => {
                     />
                 </div>
 
-                <Link to={"/health-register"}>
+                <Link to={"/register-healthprovider"}>
                     <div className='cursor-pointer text-gray-600 hover:text-blue-500'>Create an account?</div>
                 </Link>
                 <button className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleLogin}>

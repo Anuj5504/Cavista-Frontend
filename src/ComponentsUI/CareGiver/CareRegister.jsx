@@ -41,6 +41,7 @@ const CareRegister = () => {
             } else {
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
+            navigate('/family')
         } catch (error) {
             console.error('Error:', error);
         }

@@ -8,7 +8,7 @@ const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            navigate('/home');
+            navigate('/family');
         }
     }, [navigate]);
 
@@ -36,6 +36,7 @@ const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
             } else {
                 console.error('Login failed:', data.msg || 'An error occurred');
             }
+            navigate('/family');
         } catch (error) {
             console.error('Error:', error);
         }

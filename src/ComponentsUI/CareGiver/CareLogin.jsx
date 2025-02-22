@@ -11,9 +11,11 @@ const CareLogin = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        console.log("token");
         if (token) {
-            navigate('/home');
-        }
+            navigate('/caregiver');
+            console.log("yes");
+        } else navigate('/login-caregiver');
     }, [navigate]);
 
     const handleLogin = async () => {
@@ -36,7 +38,7 @@ const CareLogin = () => {
                 console.log('Login successful:', data);
                 localStorage.setItem('token', data.token); // Store token
                 localStorage.setItem('role', 'caregiver'); // Store role
-                navigate('/home');
+                navigate('/caregiver')
             } else {
                 console.error('Login failed:', data.msg || 'An error occurred');
             }

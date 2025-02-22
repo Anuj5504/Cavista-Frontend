@@ -1,29 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const patientsData = [
-  { id: 'P-2025-001', name: 'Sarah Johnson' },
-  { id: 'P-2025-002', name: 'Michael Smith' },
-  { id: 'P-2025-003', name: 'Emma Davis' },
-  { id: 'P-2025-004', name: 'John Lee' },
-  { id: 'P-2025-005', name: 'Olivia Brown' },
-  { id: 'P-2025-006', name: 'Liam Wilson' },
+  { id: 'P-2025-001', name: 'Prajwal' },
+  { id: 'P-2025-002', name: 'Anuj' },
+  { id: 'P-2025-002', name: 'Darshan' },
 ];
 
 const providersData = [
-  { id: 'D-001', name: 'Dr. Emily Wilson', specialty: 'Cardiologist' },
-  { id: 'D-002', name: 'Dr. James Brown', specialty: 'Neurologist' },
-  { id: 'D-003', name: 'Dr. Amelia Clark', specialty: 'Dermatologist' },
-  { id: 'D-004', name: 'Dr. Ethan Scott', specialty: 'Pediatrician' },
-  { id: 'D-005', name: 'Dr. Sophia Taylor', specialty: 'Psychiatrist' },
-  { id: 'D-006', name: 'Dr. William Martin', specialty: 'Oncologist' },
+  { id: 'D-001', name: 'Dr. Kunal', specialty: 'Cardiologist' },
+  { id: 'D-002', name: 'Dr. Sushant', specialty: 'Neurologist' },
 ];
 
-export default function PatientAssignmentDashboard() {
+
+export default function HealthCare() {
+  const navigate = useNavigate();
+
   const [patients, setPatients] = useState(patientsData);
   const [providers, setProviders] = useState(providersData);
   const [assignments, setAssignments] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [showProviderList, setShowProviderList] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role')
+    if (token && role == 'healthcare') {
+      navigate('/healthproviderdashboard');
+    } else navigate('/home');
+  }, [navigate]);
 
   const handleAssign = (provider) => {
     if (selectedPatient) {
@@ -36,26 +41,33 @@ export default function PatientAssignmentDashboard() {
           status: 'Active',
         },
       ]);
+
+      let remainingPatient = patients.filter((patient) => (patient.id != selectedPatient.id));
+      setPatients(remainingPatient);
+
       setSelectedPatient(null);
       setShowProviderList(false);
     }
   };
 
+  const handlePatientAssign = (patient) => {
+    setSelectedPatient(patient);
+    setShowProviderList(true);
+  }
+
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Patient Assignment Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Patients Section */}
         <div className="bg-white shadow-lg rounded-2xl p-4 max-h-96 overflow-y-auto">
           <h2 className="font-semibold text-lg mb-4">Patients</h2>
           {patients.map((patient) => (
             <div
               key={patient.id}
-              className={`w-full text-left p-3 rounded-lg mb-2 border ${
-                selectedPatient?.id === patient.id
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-200'
-              }`}
+              className={`w-full text-left p-3 rounded-lg mb-2 border ${selectedPatient?.id === patient.id
+                ? 'border-blue-500'
+                : 'border-gray-200'
+                }`}
             >
               <div className="flex justify-between items-center">
                 <div>
@@ -64,8 +76,7 @@ export default function PatientAssignmentDashboard() {
                 </div>
                 <button
                   onClick={() => {
-                    setSelectedPatient(patient);
-                    setShowProviderList(true);
+                    handlePatientAssign(patient);
                   }}
                   className="px-4 py-1 bg-blue-500 text-white rounded-lg"
                 >
@@ -76,10 +87,10 @@ export default function PatientAssignmentDashboard() {
           ))}
         </div>
 
-        {/* Providers Section - Modal-like behavior */}
+
         {showProviderList && (
           <div className="bg-white shadow-lg rounded-2xl p-4 max-h-96 overflow-y-auto relative">
-            <h2 className="font-semibold text-lg mb-4">Select a Healthcare Provider</h2>
+            <h2 className="font-semibold text-lg mb-4">Select a Healthcare Provider </h2>
             {providers.map((provider) => (
               <div
                 key={provider.id}
@@ -107,7 +118,7 @@ export default function PatientAssignmentDashboard() {
         )}
       </div>
 
-      {/* Recent Assignments Section */}
+
       <div className="mt-8 bg-white shadow-lg rounded-2xl p-4">
         <h2 className="font-semibold text-lg mb-4">Recent Assignments</h2>
         <table className="w-full text-left">
