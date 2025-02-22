@@ -6,9 +6,9 @@ return (
     <div className='align-middle grid grid-cols-1 md:grid-cols-2 gap-10 h-screen w-screen my-10 p-5'>
 
         <div className='flex flex-col gap-5 mx-auto my-auto text-center md:text-left'>
-             <div className='font-extrabold text-4xl md:text-6xl'>Healthy</div>
-             <div className='font-mono text-sm md:text-base'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa laborum ipsa, odit qui 
-                    fugit maxime! Maxime nisi non explicabo ratione eligendi aliquid voluptas nesciunt ex assumenda! Quod nihil rerum optio?</div>
+             <div className='font-extrabold text-4xl md:text-6xl'> HealthSetu </div>
+             <div className='font-mono text-sm md:text-base'> HealthSetu is India’s trusted digital bridge connecting patients, doctors, and healthcare providers in a seamless and personalized way. Designed to enhance patient engagement, HealthSetu empowers users with easy access to medical consultations, health records, and wellness resources—all in one place. 
+                   </div>
 
                     <div className='flex w-40 justify-center items-center  bg-blue-500 rounded-lg'>
                     <Button className=' bg-blue-500 hover:bg-blue-500'>Get Started </Button>

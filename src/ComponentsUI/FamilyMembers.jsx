@@ -3,7 +3,7 @@ import { Table, Button } from 'flowbite-react';
 import { HiArrowRight } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 
-const FamilyMembers = () => {
+const FamilyMembers = ({setActiveComponent}) => {
   const navigate = useNavigate();
   // Temporary family members data
   const [familyMembers, setFamilyMembers] = useState([
@@ -60,7 +60,7 @@ const FamilyMembers = () => {
                 <Table.Cell>
                   <Button 
                     color="blue"
-                    onClick={() => navigate(`/family`)}
+                    onClick={() => setActiveComponent('dashboard')}
                     size="sm"
                   >
                     <HiArrowRight className="h-4 w-4" />

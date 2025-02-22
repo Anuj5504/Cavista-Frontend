@@ -11,7 +11,7 @@ const Family = () => {
       case 'dashboard':
         return <FamilyDashboard />;
       case 'members':
-        return <FamilyMembers />;
+        return <FamilyMembers setActiveComponent={setActiveComponent}  />;
       default:
         return <FamilyDashboard />;
     }

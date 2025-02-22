@@ -18,7 +18,9 @@ const providersData = [
   { id: 'D-006', name: 'Dr. William Martin', specialty: 'Oncologist' },
 ];
 
+
 export default function PatientAssignmentDashboard() {
+
   const [patients, setPatients] = useState(patientsData);
   const [providers, setProviders] = useState(providersData);
   const [assignments, setAssignments] = useState([]);
@@ -36,10 +38,19 @@ export default function PatientAssignmentDashboard() {
           status: 'Active',
         },
       ]);
+
+      let remainingPatient = patients.filter((patient)=> ( patient.id != selectedPatient.id ) );
+      setPatients(remainingPatient);
+
       setSelectedPatient(null);
       setShowProviderList(false);
     }
   };
+
+  const handlePatientAssign =(patient)=>{
+    setSelectedPatient(patient);
+    setShowProviderList(true);
+  }
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
@@ -64,8 +75,7 @@ export default function PatientAssignmentDashboard() {
                 </div>
                 <button
                   onClick={() => {
-                    setSelectedPatient(patient);
-                    setShowProviderList(true);
+                    handlePatientAssign(patient);
                   }}
                   className="px-4 py-1 bg-blue-500 text-white rounded-lg"
                 >
@@ -76,10 +86,10 @@ export default function PatientAssignmentDashboard() {
           ))}
         </div>
 
-        {/* Providers Section - Modal-like behavior */}
+  
         {showProviderList && (
           <div className="bg-white shadow-lg rounded-2xl p-4 max-h-96 overflow-y-auto relative">
-            <h2 className="font-semibold text-lg mb-4">Select a Healthcare Provider</h2>
+            <h2 className="font-semibold text-lg mb-4">Select a Healthcare Provider </h2>
             {providers.map((provider) => (
               <div
                 key={provider.id}
@@ -107,7 +117,7 @@ export default function PatientAssignmentDashboard() {
         )}
       </div>
 
-      {/* Recent Assignments Section */}
+
       <div className="mt-8 bg-white shadow-lg rounded-2xl p-4">
         <h2 className="font-semibold text-lg mb-4">Recent Assignments</h2>
         <table className="w-full text-left">
