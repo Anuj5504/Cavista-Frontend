@@ -10,11 +10,12 @@ function App() {
   return (
     <>
       <div>
+        <Navbar></Navbar>
         <Routes>
+
           <Route path="/" element = {<Hero></Hero> } ></Route>
           <Route path="/HealthCare" element = {<HealthCare></HealthCare> } ></Route>
        
-        {/* <HealthCare></HealthCare> */}
 
         </Routes>
       </div>
