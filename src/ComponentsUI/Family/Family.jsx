@@ -14,7 +14,7 @@ const Family = () => {
     });
   return (
     <div className='w-full h-full flex justify-center items-center'>
-        <div className='w-[50vw] h-[70vh]'>
+        <div className='w-[50vw]'>
             {step===0 && login===0 && <Login userData={userData} setuserData={setuserData} step={step} setstep={setstep} setlogin={setlogin}/> }
             {step===0 && login===1 && <Register userData={userData} setuserData={setuserData} step={step} setstep={setstep} setlogin={setlogin}/> }
             {step===1 && <FamilyHome userData={userData} step={step} setstep={setstep}/> }

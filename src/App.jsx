@@ -17,6 +17,7 @@ import CareRegister from './ComponentsUI/CareGiver/CareRegister';
 import Caregiver from './Pages/Caregiver';
 import Footer from './ComponentsUI/Footer';
 import FamDashboard from './Pages/Family';
+import Home from './Pages/Home'
 
 
 
@@ -26,7 +27,8 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/home" element={<Hero></Hero>} ></Route>
+        <Route path="/" element={<Home></Home>} ></Route>
+          <Route path="/home" element={<Home></Home>} ></Route>
           <Route path="/HealthCare" element={<HealthCare></HealthCare>} ></Route>
           <Route path="/login-patient" element={<Family />}></Route>
           <Route path="/register-patient" element={<Register />}></Route>
@@ -39,7 +41,7 @@ const App = () => {
           <Route path="/healthproviderdashboard" element={<HealthCare />}></Route>
           <Route path="/caregiver" element={<Caregiver />}></Route>
         </Routes>
-        {/* <Footer/> */}
+        <Footer/>
       </div>
     </>
 
