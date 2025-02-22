@@ -6,8 +6,6 @@ import Navbar from '../ComponentsUI/Navbar';
 function Home() {
   return (
     <div className='w-full min-h-screen bg-white'>
-      {/* Navbar */}
-      <Navbar />
 
       {/* Main Content */}
       <main className='w-full'>
