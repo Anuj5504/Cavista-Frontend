@@ -15,7 +15,9 @@ function App() {
     <>
       <div>
         <Navbar />
+        <Navbar></Navbar>
         <Routes>
+
           <Route path="/" element = {<Hero></Hero> } ></Route>
           <Route path="/HealthCare" element = {<HealthCare></HealthCare> } ></Route>
           <Route path="/login-patient" element={<Family/>}></Route>
