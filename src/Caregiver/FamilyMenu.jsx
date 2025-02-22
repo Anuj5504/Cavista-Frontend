@@ -1,13 +1,23 @@
-import React from 'react'
+import React from 'react';
 import { Sidebar, TextInput } from "flowbite-react";
-import { HiChartPie, HiInformationCircle, HiLogin, HiSearch, HiUsers } from "react-icons/hi";
+import { HiSearch, HiUsers, HiLogin, HiInformationCircle } from "react-icons/hi";
+import { useNavigate } from 'react-router-dom';
 
-const FamilyMenu = ({ onMenuSelect, activeItem }) => {
+const FamilyMenu = ({ activeItem }) => {
+    const navigate = useNavigate();
+
+    const handleNavigation = (path) => {
+        navigate(path);
+    };
+
+    const handleSignOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate('/home'); // Redirect to login after sign-out
+    };
+
     return (
-        <Sidebar
-            aria-label="Family dashboard sidebar"
-            className="bg-white p-0 h-full"
-        >
+        <Sidebar aria-label="Family dashboard sidebar" className="bg-white p-0 h-full">
             <div className="flex h-full flex-col justify-between py-4">
                 <div>
                     <form className="pb-3 md:hidden">
@@ -18,28 +28,19 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
                             <Sidebar.Item
                                 href="#"
                                 icon={HiUsers}
-                                onClick={() => onMenuSelect('health')}
-                                active={activeItem === 'health'}
+                                onClick={() => handleNavigation('/patients')}
+                                active={activeItem === 'patients'}
                             >
                                 Patient List
                             </Sidebar.Item>
                             <Sidebar.Item
                                 href="#"
                                 icon={HiUsers}
-                                onClick={() => onMenuSelect('health')}
                                 active={activeItem === 'assign'}
                             >
                                 Assign Tasks
                             </Sidebar.Item>
-                            <Sidebar.Item
-                                href="#"
-                                icon={HiUsers}
-                                onClick={() => onMenuSelect('health')}
-                                active={activeItem === 'update'}
-                            >
-                                Update Profile
-                            </Sidebar.Item>
-                            <Sidebar.Item href="#" icon={HiLogin}>
+                            <Sidebar.Item href="#" icon={HiLogin} onClick={handleSignOut}>
                                 Sign out
                             </Sidebar.Item>
                         </Sidebar.ItemGroup>
@@ -52,7 +53,7 @@ const FamilyMenu = ({ onMenuSelect, activeItem }) => {
                 </div>
             </div>
         </Sidebar>
-    )
-}
+    );
+};
 
 export default FamilyMenu;

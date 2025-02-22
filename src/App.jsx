@@ -18,6 +18,7 @@ import Caregiver from './Pages/Caregiver';
 import Footer from './ComponentsUI/Footer';
 import FamDashboard from './Pages/Family';
 import Home from './Pages/Home'
+import AssignTask from './Caregiver/AssignTask'
 
 
 
@@ -40,6 +41,8 @@ const App = () => {
           <Route path="/family" element={<FamDashboard />}></Route>
           <Route path="/healthproviderdashboard" element={<HealthCare />}></Route>
           <Route path="/caregiver" element={<Caregiver />}></Route>
+          <Route path="/caregiver/assign-task/:id" element={<AssignTask />} />
+
         </Routes>
         <Footer/>
       </div>

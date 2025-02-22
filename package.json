@@ -17,6 +17,7 @@
     "flowbite-react": "^0.10.2",
     "framer-motion": "^12.4.7",
     "gsap": "^3.12.7",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.475.0",
     "matter-js": "^0.20.0",
     "react": "^19.0.0",
