@@ -16,20 +16,18 @@ const FamilyMember = () => {
           <Sidebar.Items>
             <Sidebar.ItemGroup>
               <Sidebar.Item href="/" icon={HiChartPie}>
-                Dashboard
+                My Health
               </Sidebar.Item>
               <Sidebar.Item href="/e-commerce/products" icon={HiShoppingBag}>
                 Family Members
               </Sidebar.Item>
               <Sidebar.Item href="/users/list" icon={HiUsers}>
-                Add Family Member
+                Family Health
               </Sidebar.Item>
               <Sidebar.Item href="/authentication/sign-in" icon={HiLogin}>
-                Sign in
+                Sign out
               </Sidebar.Item>
-              <Sidebar.Item href="/authentication/sign-up" icon={HiPencil}>
-                Sign up
-              </Sidebar.Item>
+
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
               
