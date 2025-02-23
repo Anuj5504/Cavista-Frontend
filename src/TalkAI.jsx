@@ -1,4 +1,6 @@
+import { jwtDecode } from "jwt-decode";
 import React, { useState, useEffect } from "react";
+import Test from './ComponentsUI/Test';
 
 let recognition;
 
@@ -7,6 +9,11 @@ const TalkAI = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [report, setReport] = useState(null);
     const [sessionId] = useState(() => Math.random().toString(36).substring(2, 15));
+    const token = localStorage.getItem("token");
+    const decode = jwtDecode(token);
+    const patientId = decode.user._id;
+    const [appointmentId, setAppointmentId] = useState(null);
+    console.log(patientId);
 
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -37,13 +44,13 @@ const TalkAI = () => {
     const startConversation = async () => {
         try {
             console.log("Starting conversation..."); // Debug log
-            const response = await fetch("http://localhost:4000/api/appointments/start", {
+            const response = await fetch("http://localhost:3000/api/appointments/start", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify({ sessionId }),
+                body: JSON.stringify({ sessionId}),
             });
 
             if (!response.ok) {
@@ -62,7 +69,7 @@ const TalkAI = () => {
 
     const handleSendMessage = async (text) => {
         try {
-            const response = await fetch("http://localhost:4000/api/appointments/talk", {
+            const response = await fetch("http://localhost:3000/api/appointments/talk", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -71,7 +78,7 @@ const TalkAI = () => {
                 body: JSON.stringify({
                     sessionId,
                     text,
-                    generateReport: true
+                    patientId,
                 }),
             });
 
@@ -83,7 +90,10 @@ const TalkAI = () => {
             console.log("Response data:", data);
 
             if (data.report) {
+                console.log("Report received:", data.report);
+                console.log("Appointment ID:", data.appointmentId);
                 setReport(data.report);
+                setAppointmentId(data.appointmentId);
                 window.speechSynthesis.cancel();
                 setIsSpeaking(false);
             } else {
@@ -180,12 +190,15 @@ const TalkAI = () => {
                             ))}
                         </div>
 
+                        <Test reportData={report} appointmentId={appointmentId} />
+
                         <button
                             onClick={() => {
                                 setReport(null);
+                                setAppointmentId(null);
                                 startConversation();
                             }}
-                            className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
+                            className="w-full mt-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
                         >
                             Start New Consultation
                         </button>

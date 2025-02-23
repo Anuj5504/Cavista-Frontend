@@ -33,6 +33,7 @@ const App = () => {
       <ToastContainer />
         <Navbar />
         <Routes>
+          {/* <Route path="/t" element={<Test/>}></Route> */}
           <Route path="/" element={<Home></Home>} ></Route>
           <Route path="/home" element={<Home></Home>} ></Route>
           <Route path="/HealthCare" element={<HealthCare></HealthCare>} ></Route>
