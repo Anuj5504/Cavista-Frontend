@@ -77,14 +77,11 @@ const FAQSection = () => {
                 ))}
             </div>
 
-            {/* Call to Action */}
             <div className="mt-12 text-center">
                 <p className="text-gray-600 mb-4">
                     Still have questions? We're here to help!
                 </p>
-                <button className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300">
-                    Contact Support
-                </button>
+                <p>Connect with us healthsetu25@gmail.com</p>
             </div>
         </div>
     );

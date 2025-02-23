@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaEnvelope, FaLock } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const HealthLogin = () => {
     const [userData, setUserData] = useState({
@@ -36,8 +37,10 @@ const HealthLogin = () => {
                 console.log('Login successful:', data);
                 localStorage.setItem('token', data.token); 
                 localStorage.setItem('role', 'healthcare'); 
+                toast.success("Login successful");
                 navigate('/healthproviderdashboard');
             } else {
+                toast.error("Login unsuccessful");
                 console.error('Login failed:', data.msg || 'An error occurred');
             }
             
@@ -59,7 +62,7 @@ const HealthLogin = () => {
                         onChange={(e) =>
                             setUserData({ ...userData, email: e.target.value })
                         }
-                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        className="appearance-none focus:ring-0 bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                     />
                 </div>
 
@@ -71,7 +74,7 @@ const HealthLogin = () => {
                         onChange={(e) =>
                             setUserData({ ...userData, password: e.target.value })
                         }
-                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        className="appearance-none focus:ring-0 bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                     />
                 </div>
 

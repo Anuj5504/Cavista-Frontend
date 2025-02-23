@@ -20,7 +20,7 @@ const FamilyMembers = () => {
         }
 
         const decodedToken = jwtDecode(token);
-        const caregiverId = decodedToken.user._id; // Adjust based on your token structure
+        const caregiverId = decodedToken.user._id;
         console.log(caregiverId)
 
         const response = await fetch(`http://localhost:3000/api/patients`, {
@@ -36,9 +36,8 @@ const FamilyMembers = () => {
 
         const data = await response.json();
         console.log(data)
-        // Filter patients based on caregiver ID
         const filteredPatients = data.filter(
-          (patient) => patient.caregiver._id === caregiverId
+          (patient) => patient.caregiver?._id === caregiverId
         );
         console.log(filteredPatients)
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaEnvelopeOpen, FaLock, FaUsers } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }) => {
     const [userData, setUserData] = useState({
@@ -45,6 +46,7 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
 
             if (!response.ok) {
                 const errorText = await response.text();
+                toast.error("Login unsuccessful");
                 console.error('Error:', errorText);
                 return;
             }
@@ -117,8 +119,10 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
                 console.log('Registration successful:', data);
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('role', 'patient');
+                toast.success("Register successful");
                 navigate('/home');
             } else {
+                toast.error("Register unsuccessful");
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
             navigate('/family');
@@ -142,7 +146,7 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
                                 onChange={(e) =>
                                     setUserData({ ...userData, familyName: e.target.value })
                                 }
-                                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                                className="appearance-none focus:ring-0  bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                             />
                         </div>
                         <div className="flex items-center border-b border-blue-500 py-2">
@@ -154,7 +158,7 @@ const Register = ({ initialUserData = {}, setuserData, step, setstep, setlogin }
                                 onChange={(e) =>
                                     setUserData({ ...userData, houseid: e.target.value })
                                 }
-                                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                                className="appearance-none focus:ring-0  bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                             />
                         </div>
                         <div className="flex items-center border-b border-blue-500 py-2">

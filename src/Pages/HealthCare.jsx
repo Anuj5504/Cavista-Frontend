@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
 
 export default function HealthCare() {
   const navigate = useNavigate();
@@ -31,12 +32,14 @@ export default function HealthCare() {
   const fetchProviderProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/provider-profile', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setProviderProfile(response.data);
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      const decodedToken = jwtDecode(token);
+      const caregiverId = decodedToken.user; 
+      console.log(caregiverId)
+      setProviderProfile(caregiverId);
     } catch (error) {
       console.error('Error fetching provider profile:', error);
     }
@@ -52,7 +55,6 @@ export default function HealthCare() {
         }
       });
 
-      // Separate patients into assigned and unassigned
       const allPatients = response.data;
       const unassigned = allPatients.filter(p => !p.caregiver);
       const assigned = allPatients.filter(p => p.caregiver);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaEnvelope, FaLock } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
     const navigate = useNavigate();
@@ -33,7 +34,9 @@ const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
                 localStorage.setItem('token', data.token); 
                 localStorage.setItem('role', 'patient'); 
                 navigate('/home');
+                toast.success("Login successful");
             } else {
+                toast.error("Login unsuccessful");
                 console.error('Login failed:', data.msg || 'An error occurred');
             }
             navigate('/family');
@@ -55,7 +58,7 @@ const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
                         onChange={(e) =>
                             setuserData({ ...userData, email: e.target.value })
                         }
-                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 focus:ring-0 leading-tight focus:outline-none"
                     />
                 </div>
 
@@ -67,7 +70,7 @@ const Login = ({ userData, setuserData, step, setstep, setlogin }) => {
                         onChange={(e) =>
                             setuserData({ ...userData, password: e.target.value })
                         }
-                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                        className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 focus:ring-0 leading-tight focus:outline-none"
                     />
                 </div>
 

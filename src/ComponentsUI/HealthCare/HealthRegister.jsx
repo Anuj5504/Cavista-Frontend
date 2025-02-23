@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const HealthRegister = () => {
     const [userData, setUserData] = useState({
@@ -37,8 +38,10 @@ const HealthRegister = () => {
                 console.log('Registration successful:', data);
                 localStorage.setItem('token', data.token); 
                 localStorage.setItem('role', 'healthcare'); 
+                toast.success("Register successful");
                 navigate('/healthproviderdashboard');
             } else {
+                toast.error("Register unsuccessful");
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
         } catch (error) {

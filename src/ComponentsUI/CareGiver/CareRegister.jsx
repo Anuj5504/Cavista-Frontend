@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CareRegister = () => {
     const [userData, setUserData] = useState({
@@ -37,8 +38,10 @@ const CareRegister = () => {
                 console.log('Registration successful:', data);
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('role', 'caregiver');
+                toast.success("Register successful");
                 navigate('/caregiver');
             } else {
+                toast.error("Register unsuccessful");
                 console.error('Registration failed:', data.msg || 'An error occurred');
             }
             navigate('/caregiver')

@@ -35,16 +35,13 @@ const Hero = () => {
     return (
         <div className='min-h-screen bg-gradient-to-br from-white to-blue-50'>
             
-            <div className='container mx-auto px-4 pt-20 pb-12'>
+            <div className='container mx-auto px-4 pt-10 pb-12'>
                 <div className='flex flex-col md:flex-row items-center justify-between gap-12'>
                     
                     <div className='flex flex-col gap-8 md:w-1/2'>
-                        <div className='inline-flex items-center bg-blue-50 rounded-full px-4 py-2 text-blue-600'>
-                            <span className='text-sm font-semibold'>Seamless, Smarter, and More Connected Care</span>
-                        </div>
 
                         <h1 className='font-extrabold text-4xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800'>
-                            Bringing Personalization to Patient Care.
+                          Bringing Personalization to Patient Care.
                         </h1>
 
                         <p className='text-gray-600 text-lg md:text-xl leading-relaxed'>
@@ -64,7 +61,6 @@ const Hero = () => {
                             </button>
                         </div>
 
-                        {/* Key Features */}
                         <div className='grid grid-cols-2 gap-4 mt-2'>
                             {['24/7 Support', 'Secure Platform', 'Easy Access', 'Pan India Network'].map((feature) => (
                                 <div key={feature} className='flex items-center gap-2 text-gray-700'>
@@ -75,7 +71,6 @@ const Hero = () => {
                         </div>
                     </div>
 
-                    {/* Right Image */}
                     <div className='md:w-1/2'>
                         <div className='relative'>
                             <div className='absolute -inset-4 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg blur-lg opacity-30'></div>
@@ -89,7 +84,6 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* Login Modal */}
             {showOptions && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-8 rounded-xl text-center w-96 flex flex-col gap-6 relative shadow-2xl">
@@ -98,9 +92,9 @@ const Hero = () => {
 
                         <div className="flex flex-col gap-4">
                             {[
-                                { title: 'Patient Caretaker', route: 'Patient Caretaker' },
-                                { title: 'Health Provider', route: 'Health Provider' },
-                                { title: 'Care Coordinator', route: 'Care Coordinator' }
+                                { title: 'Patient', route: 'Patient Caretaker' },
+                                { title: 'Healthcare Provider', route: 'Health Provider' },
+                                { title: 'Care Givers', route: 'Care Coordinator' }
                             ].map((option) => (
                                 <button
                                     key={option.title}

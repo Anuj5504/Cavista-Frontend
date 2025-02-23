@@ -13,7 +13,7 @@ const FamilyMenu = ({ activeItem }) => {
     const handleSignOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
-        navigate('/home'); // Redirect to login after sign-out
+        navigate('/home'); 
     };
 
     return (
