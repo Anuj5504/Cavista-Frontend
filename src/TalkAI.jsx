@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import React, { useState, useEffect } from "react";
 
 let recognition;
@@ -7,6 +8,10 @@ const TalkAI = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [report, setReport] = useState(null);
     const [sessionId] = useState(() => Math.random().toString(36).substring(2, 15));
+    const token = localStorage.getItem("token");
+    const decode = jwtDecode(token);
+    const patientId = decode.user._id;
+    console.log(patientId);
 
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -37,13 +42,13 @@ const TalkAI = () => {
     const startConversation = async () => {
         try {
             console.log("Starting conversation..."); // Debug log
-            const response = await fetch("http://localhost:4000/api/appointments/start", {
+            const response = await fetch("http://localhost:3000/api/appointments/start", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify({ sessionId }),
+                body: JSON.stringify({ sessionId}),
             });
 
             if (!response.ok) {
@@ -62,7 +67,7 @@ const TalkAI = () => {
 
     const handleSendMessage = async (text) => {
         try {
-            const response = await fetch("http://localhost:4000/api/appointments/talk", {
+            const response = await fetch("http://localhost:3000/api/appointments/talk", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -71,6 +76,7 @@ const TalkAI = () => {
                 body: JSON.stringify({
                     sessionId,
                     text,
+                    patientId,
                     generateReport: true
                 }),
             });
