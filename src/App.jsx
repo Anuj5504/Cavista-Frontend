@@ -20,6 +20,7 @@ import FamDashboard from './Pages/Family';
 import Home from './Pages/Home'
 import AssignTask from './Caregiver/AssignTask'
 import TalkAI from './TalkAI';
+import Test from './ComponentsUI/Test';
 
 const hardcodedToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyM1EzTlQiLCJzdWIiOiJDSEYyUzkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJlY2cgcnNldCByaXJuIHJveHkgcnBybyBybnV0IHJzbGUgcmNmIHJhY3QgcnJlcyBybG9jIHJ3ZWkgcmhyIHJ0ZW0iLCJleHAiOjE3NDAyOTE1NDEsImlhdCI6MTc0MDI2Mjc0MX0.PJmxNXndGpKMLBgyrl_qNh8SdA4i0zoAIqC65n5ZaOc";
 localStorage.setItem("fitbitToken", hardcodedToken);
@@ -31,6 +32,7 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
+          <Route path="/t" element={<Test/>}></Route>
           <Route path="/" element={<Home></Home>} ></Route>
           <Route path="/home" element={<Home></Home>} ></Route>
           <Route path="/HealthCare" element={<HealthCare></HealthCare>} ></Route>

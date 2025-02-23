@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useState, useEffect } from "react";
+import Test from './ComponentsUI/Test';
 
 let recognition;
 
@@ -11,6 +12,7 @@ const TalkAI = () => {
     const token = localStorage.getItem("token");
     const decode = jwtDecode(token);
     const patientId = decode.user._id;
+    const [appointmentId, setAppointmentId] = useState(null);
     console.log(patientId);
 
     useEffect(() => {
@@ -77,7 +79,6 @@ const TalkAI = () => {
                     sessionId,
                     text,
                     patientId,
-                    generateReport: true
                 }),
             });
 
@@ -89,7 +90,10 @@ const TalkAI = () => {
             console.log("Response data:", data);
 
             if (data.report) {
+                console.log("Report received:", data.report);
+                console.log("Appointment ID:", data.appointmentId);
                 setReport(data.report);
+                setAppointmentId(data.appointmentId);
                 window.speechSynthesis.cancel();
                 setIsSpeaking(false);
             } else {
@@ -186,12 +190,15 @@ const TalkAI = () => {
                             ))}
                         </div>
 
+                        <Test reportData={report} appointmentId={appointmentId} />
+
                         <button
                             onClick={() => {
                                 setReport(null);
+                                setAppointmentId(null);
                                 startConversation();
                             }}
-                            className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
+                            className="w-full mt-4 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
                         >
                             Start New Consultation
                         </button>
