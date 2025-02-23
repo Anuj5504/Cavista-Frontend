@@ -141,11 +141,6 @@ const TalkAI = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
-            <header className="bg-white py-4 px-6 shadow-sm">
-                <h1 className="text-xl text-center text-gray-800 font-medium">
-                    Cavista Health Assistant
-                </h1>
-            </header>
 
             <main className="flex-1 flex items-center justify-center p-6">
                 {!report ? (
